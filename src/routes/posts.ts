@@ -4,9 +4,17 @@ import db from "../db";
 
 const app = Router()
 
+app.get(
+    '/posts', 
+    async (req, res) => {
+        // console.log(req.posts)
+        res.status(200).json({ message: 'Hello posts' })
+    }
+)
+
 app.post(
     '/post',
-    body('name').exists().isString().notEmpty(),
+    body('title').exists().isString().notEmpty(),
     async (req: Request, res: Response) => {
       try {
         validationResult(req).throw()
@@ -23,4 +31,8 @@ app.post(
         console.log(e)
         return res.status(400).json({error: e || 'Cannot create the post'})
       }
-    })
+    }
+)
+    
+export default app
+
