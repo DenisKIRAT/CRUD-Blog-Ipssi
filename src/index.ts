@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv'
 // import todoListRoutes from './routes/todoList'
 // import todoItemRoutes from './routes/todoItem'
 // import { protect } from './modules/auth'
-// import { createNewUser, signIn } from './handlers/user'
+import { createNewUser, signIn } from './handlers/user'
 // import config from './config'
 
 dotenv.config()
@@ -26,8 +26,8 @@ app.get('/', (req, res) => {
 //   todoItemRoutes
 // ])
 
-// app.post('/signUp', createNewUser)
-// app.post('/signIn', signIn)
+app.post('/signUp', createNewUser)
+app.post('/signIn', signIn)
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`)
