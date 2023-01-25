@@ -2,9 +2,9 @@ import express from 'express'
 
 const app = express.Router()
 
-app.get('/posts', (req, res) => {
+app.get('/comments', (req, res) => {
 //   console.log(req.posts)
-  res.status(200).json({ message: 'Hello posts' })
+  res.status(200).json({ message: 'Hello comments' })
 })
 
 export default app
