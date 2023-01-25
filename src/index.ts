@@ -3,7 +3,6 @@ import * as dotenv from 'dotenv'
 import postsRoutes from './routes/posts'
 import userRoutes from './routes/user'
 import commentsRoutes from './routes/comments'
-// import todoItemRoutes from './routes/todoItem'
 // import { protect } from './modules/auth'
 // import { createNewUser, signIn } from './handlers/user'
 // import config from './config'
@@ -26,13 +25,6 @@ app.use('/api', [
 	postsRoutes,
 	commentsRoutes
 ])
-
-
-// app.use('/api', protect, [
-//   userRoutes,
-//   todoListRoutes,
-//   todoItemRoutes
-// ])
 
 // app.post('/signUp', createNewUser)
 // app.post('/signIn', signIn)
