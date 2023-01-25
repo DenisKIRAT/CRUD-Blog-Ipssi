@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 import postsRoutes from './routes/posts'
 import userRoutes from './routes/user'
 import commentsRoutes from './routes/comments'
-// import { protect } from './modules/auth'
+import { protect } from './modules/auth'
 import { createNewUser, signIn } from './handlers/user'
 // import config from './config'
 
@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Salut' })
 })
 
-app.use('/api', [
+app.use('/api', protect, [
 	userRoutes,
 	postsRoutes,
 	commentsRoutes
