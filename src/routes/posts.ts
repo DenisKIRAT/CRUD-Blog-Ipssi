@@ -7,8 +7,12 @@ const app = Router()
 app.get(
     '/posts', 
     async (req, res) => {
-        // console.log(req.posts)
-        res.status(200).json({ message: 'Hello posts' })
+        const posts = await db.post.findMany({
+          where: {
+            authorId: req.user.id
+          }
+        })
+        return res.status(200).json(posts)
     }
 )
 
