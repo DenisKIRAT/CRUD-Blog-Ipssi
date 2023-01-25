@@ -4,12 +4,14 @@ specifiers:
   '@prisma/client': ^4.9.0
   '@types/bcrypt': ^5.0.0
   '@types/express': ^4.17.16
+  '@types/express-validator': ^3.0.0
   '@types/jsonwebtoken': ^9.0.1
   '@types/lodash.merge': ^4.6.7
   '@types/node': ^18.11.18
   bcrypt: ^5.1.0
   dotenv: ^16.0.3
   express: ^4.18.2
+  express-validator: ^6.14.3
   jsonwebtoken: ^9.0.0
   nodemon: ^2.0.20
   prisma: ^4.9.0
@@ -21,11 +23,13 @@ dependencies:
   bcrypt: 5.1.0
   dotenv: 16.0.3
   express: 4.18.2
+  express-validator: 6.14.3
   jsonwebtoken: 9.0.0
 
 devDependencies:
   '@types/bcrypt': 5.0.0
   '@types/express': 4.17.16
+  '@types/express-validator': 3.0.0
   '@types/jsonwebtoken': 9.0.1
   '@types/lodash.merge': 4.6.7
   '@types/node': 18.11.18
@@ -140,6 +144,13 @@ packages:
       '@types/node': 18.11.18
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
+    dev: true
+
+  /@types/express-validator/3.0.0:
+    resolution: {integrity: sha512-LusnB0YhTXpBT25PXyGPQlK7leE1e41Vezq1hHEUwjfkopM1Pkv2X2Ppxqh9c+w/HZ6Udzki8AJotKNjDTGdkQ==}
+    deprecated: This is a stub types definition for express-validator (https://github.com/ctavan/express-validator). express-validator provides its own type definitions, so you don't need @types/express-validator installed!
+    dependencies:
+      express-validator: 6.14.3
     dev: true
 
   /@types/express/4.17.16:
@@ -472,6 +483,13 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /express-validator/6.14.3:
+    resolution: {integrity: sha512-c4b9NMdhskfcLbH/FchsSfCt4Vb14gKzcotG9zLS+VoOJDox57aGhCL+kmAu7cl+ytaSed+HD5jdJhel8DQsdg==}
+    engines: {node: '>= 8.0.0'}
+    dependencies:
+      lodash: 4.17.21
+      validator: 13.7.0
+
   /express/4.18.2:
     resolution: {integrity: sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==}
     engines: {node: '>= 0.10.0'}
@@ -732,7 +750,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: false
 
   /lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
@@ -1227,6 +1244,10 @@ packages:
   /v8-compile-cache-lib/3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
     dev: true
+
+  /validator/13.7.0:
+    resolution: {integrity: sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==}
+    engines: {node: '>= 0.10'}
 
   /vary/1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
