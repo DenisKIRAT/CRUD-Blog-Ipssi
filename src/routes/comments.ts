@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, RequestHandler, Response } from 'express'
 import { body, validationResult } from 'express-validator'
 import db from '../db'
 
@@ -8,6 +8,28 @@ const app = express.Router()
 // //   console.log(req.posts)
 //   res.status(200).json({ message: 'Hello comments' })
 // })
+
+const isUsersComment: RequestHandler = async (req, res, next) => {
+  try {
+    const isOwner = await db.comment.findFirstOrThrow({
+      where: {
+        author: {
+          id: req.user.id
+        },
+      }
+    })
+
+    console.log(isOwner)
+
+    if (isOwner) {
+      return next()
+    }
+    throw new Error('You should not be here')
+  } catch(e) {
+    return res.status(400).json({ message: 'You are not the owner' })
+  }
+} 
+
 
 app.get(
   '/comments',
@@ -67,6 +89,50 @@ app.post(
       return res.status(201).json(createdContent)
     } catch (e) {
       return res.status(400).json({ message: e || 'Error during creation'})
+    }
+  }
+)
+
+app.patch(
+  '/comment/:uuid',
+  isUsersComment,
+  async (req: Request, res: Response) => {
+    try {
+      validationResult(req).throw()
+      const modifiedComment = await db.comment.updateMany({
+        where: {
+          id: req.params.uuid
+        },
+        data: {
+          content: req.body.content,
+          authorId: req.user.id
+        }
+      })
+
+      return res.status(200).json(modifiedComment)
+    } catch(e) {
+      console.log(e)
+      return res.status(400).json({error: e || 'Cannot modify the comment'})
+    }
+  }
+)
+
+app.delete(
+  '/comment/:uuid',
+  isUsersComment,
+  async (req: Request, res: Response) => {
+    try {
+      validationResult(req).throw()
+      const deletedComment = await db.comment.delete({
+        where: {
+          id: req.params.uuid
+        }
+      })
+
+      return res.status(200).json(deletedComment)
+    } catch(e) {
+      console.log(e)
+      return res.status(400).json({error: e || 'Cannot delete the comment'})
     }
   }
 )
