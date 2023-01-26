@@ -9,25 +9,25 @@ const app = express.Router()
 //   res.status(200).json({ message: 'Hello comments' })
 // })
 
-// app.get(
-//   '/comments',
-//   async (req, res) => {
-//       try {
-//           const post = await db.comment.findMany({
-//           where: {
-//               authorId: req.user.id
-//           },
-//           include: {
-//               post: true
-//           }
-//           })
+app.get(
+  '/comments',
+  async (req, res) => {
+      try {
+          const comments = await db.comment.findMany({
+          where: {
+              authorId: req.user.id
+          },
+          include: {
+              post: true
+          },
+          })
   
-//           return res.status(200).json(post)
-//       } catch(e) {
-//           return res.status(400).json({ message: 'Not found' })
-//       }
-//   }
-// )
+          return res.status(200).json(comments)
+      } catch(e) {
+          return res.status(400).json({ message: 'Not found' })
+      }
+  }
+)
 
 app.post(
   '/comment',
