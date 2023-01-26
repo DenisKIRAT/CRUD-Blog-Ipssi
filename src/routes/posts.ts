@@ -8,6 +8,7 @@ const isUsersPost: RequestHandler = async (req, res, next) => {
   try {
     const isOwner = await db.post.findFirstOrThrow({
       where: {
+        id: req.params.uuid,
         author: {
           id: req.user.id
         },

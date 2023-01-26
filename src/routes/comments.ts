@@ -13,6 +13,7 @@ const isUsersComment: RequestHandler = async (req, res, next) => {
   try {
     const isOwner = await db.comment.findFirstOrThrow({
       where: {
+        id: req.params.uuid,
         author: {
           id: req.user.id
         },
