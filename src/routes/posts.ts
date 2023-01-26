@@ -79,13 +79,15 @@ app.post(
 
 app.patch(
   '/post/:uuid',
+  body('title').isString().optional(),
+  body('content').isString().optional(),
   isUsersPost,
   async (req: Request, res: Response) => {
     try {
       validationResult(req).throw()
       const modifiedPost = await db.post.updateMany({
         where: {
-          id: req.params.uuid
+          id: req.params.uuid                                                           
         },
         data: {
           title: req.body.title,

@@ -96,6 +96,7 @@ app.post(
 
 app.patch(
   '/comment/:uuid',
+  body('content').isString().optional(),
   isUsersComment,
   async (req: Request, res: Response) => {
     try {
