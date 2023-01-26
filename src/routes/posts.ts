@@ -13,6 +13,9 @@ const isUsersPost: RequestHandler = async (req, res, next) => {
         },
       }
     })
+
+    console.log(isOwner)
+
     if (isOwner) {
       return next()
     }
@@ -58,6 +61,7 @@ app.post(
 
 app.patch(
   '/post/:uuid',
+  isUsersPost,
   async (req: Request, res: Response) => {
     try {
       validationResult(req).throw()
