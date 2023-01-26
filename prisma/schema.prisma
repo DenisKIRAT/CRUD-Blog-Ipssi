@@ -25,16 +25,16 @@ model Post {
   title    String    @db.VarChar(64)
   content  String
   comments Comment[]
-  author   User      @relation(fields: [authorId], references: [id])
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 }
 
 model Comment {
   id       String @id @unique @default(uuid())
   content  String
-  post     Post   @relation(fields: [postId], references: [id])
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId   String
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 }
 
