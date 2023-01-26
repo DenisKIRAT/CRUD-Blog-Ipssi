@@ -4,6 +4,24 @@ import db from "../db";
 
 const app = Router()
 
+const isUsersPost: RequestHandler = async (req, res, next) => {
+  try {
+    const isOwner = await db.post.findFirstOrThrow({
+      where: {
+        author: {
+          id: req.user.id
+        },
+      }
+    })
+    if (isOwner) {
+      return next()
+    }
+    throw new Error('You should not be here')
+  } catch(e) {
+    return res.status(400).json({ message: 'You are not the owner' })
+  }
+} 
+
 app.get(
     '/posts', 
     async (req, res) => {
@@ -39,7 +57,7 @@ app.post(
 )
 
 app.patch(
-  '/post_modify/:uuid',
+  '/post/:uuid',
   async (req: Request, res: Response) => {
     try {
       validationResult(req).throw()
@@ -61,6 +79,26 @@ app.patch(
     }
   }
 )
-    
+
+app.delete(
+  '/post/:uuid',
+  isUsersPost,
+  async (req: Request, res: Response) => {
+    try {
+      validationResult(req).throw()
+      const deletedPost = await db.post.delete({
+        where: {
+          id: req.params.uuid
+        }
+      })
+
+      return res.status(200).json(deletedPost)
+    } catch(e) {
+      console.log(e)
+      return res.status(400).json({error: e || 'Cannot delete the post'})
+    }
+  }
+)
+
 export default app
 
