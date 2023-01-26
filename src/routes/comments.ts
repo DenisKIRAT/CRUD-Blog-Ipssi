@@ -29,6 +29,26 @@ app.get(
   }
 )
 
+app.get(
+  '/comment/:uuid',
+  async (req, res) => {
+      try {
+          const comment = await db.comment.findFirstOrThrow({
+          where: {
+              id: req.params.uuid
+          },
+          include: {
+              post: true
+          }
+          })
+  
+          return res.status(200).json(comment)
+      } catch(e) {
+          return res.status(400).json({ message: 'Not found' })
+      }
+  }
+)
+
 app.post(
   '/comment',
   body('postId').isUUID().notEmpty(),
