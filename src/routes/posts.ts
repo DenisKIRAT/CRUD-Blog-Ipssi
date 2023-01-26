@@ -64,7 +64,7 @@ app.post(
           data: {
             title: req.body.title,
             content: req.body.content,
-            authorId: req.user.id
+            authorId: req.user.id 
           }
         })
   
