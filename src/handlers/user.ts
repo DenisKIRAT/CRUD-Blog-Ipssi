@@ -22,8 +22,7 @@ export const createNewUser: RequestHandler = async (req: TypedRequestParam, res)
     const user = await db.user.create({
       data: {
         username: req.body.username,
-        password: hash,
-        role: req.body.role,
+        password: hash
       }
     })
 
@@ -34,6 +33,30 @@ export const createNewUser: RequestHandler = async (req: TypedRequestParam, res)
     res.status(400).json({ error: e?.toString() })
   }
 }
+
+export const modifyUser: RequestHandler = async (req: TypedRequestParam, res) => {
+  try {
+    if (!(req.body?.username && req.body?.password)) {
+      throw new Error('Invalid body provided')
+    }
+
+    const hash = await hashPassword(req.body.password)
+
+    const user = await db.user.create({
+      data: {
+        username: req.body.username,
+        password: hash
+      }
+    })
+
+    const token = createJWT(user)
+
+    return res.status(201).json({ token })
+  } catch(e) {
+    res.status(400).json({ error: e?.toString() })
+  }
+}
+
 
 export const signIn: RequestHandler = async (req: TypedRequestParam, res) => {
   try {
