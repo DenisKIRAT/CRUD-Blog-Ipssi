@@ -5,9 +5,26 @@ import db from "../db";
 const app = Router()
 
 app.get(
-    '/posts', 
+    ['/posts'], 
     async (req, res) => {
-        const posts = await db.post.findMany()
+        let filter = {}
+        const dateReq = Number(req.query.from)
+        // console.log(typeof(dateReq))
+        const date = new Date(dateReq)
+        // console.log(date)
+
+        if (req.query.from) {
+          filter = {
+            where : {
+              created_at: {
+                gte: date
+              }
+            }
+          }
+        }
+        
+        const posts = await db.post.findMany(filter)
+
         return res.status(200).json(posts)
     }
 )
