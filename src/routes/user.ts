@@ -5,29 +5,48 @@ import db from '../db'
 const app = express.Router()
 
 const isUsersAdmin: RequestHandler = async (req, res, next) => {
-  try {
-    const isAdmin = await db.user.findMany({
-      where: {
+  const isAdmin = await db.user.findFirstOrThrow({
+    where: {
         id: req.user.id,
-        role: 'ADMIN'
+      },
+  })
+
+  if (isAdmin.role === "ADMIN") {
+    return next();
+  } else {
+    try {
+      if (req.user.id === req.params.uuid) {
+        const isOwner = await db.user.findFirstOrThrow({
+          where: {
+            id: req.params.uuid
+          }
+        })
+    
+        console.log(isOwner)
+    
+        if (isOwner) {
+          return next()
+        }
       }
-    })
-
-    console.log(isAdmin)
-
-    if (isAdmin) {
-      return next()
+      throw new Error('You should not be here')
+    } catch(e) {
+      return res.status(400).json({ message: 'You are not the owner' })
     }
-    throw new Error('You should not be here')
-  } catch(e) {
-    return res.status(400).json({ message: 'You are not admin' })
   }
-} 
+}
 
 app.get(
-  '/users',
+  '/user',
   async (req, res) => {
-    const users = await db.user.findMany()
+    const users = await db.user.findUnique({
+      where : {
+        id: req.user.id
+      },
+      include : {
+        posts: true,
+        comments: true
+      }
+    })
     return res.status(200).json(users)
   }
 )

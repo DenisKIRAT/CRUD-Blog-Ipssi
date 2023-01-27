@@ -11,26 +11,41 @@ const app = express.Router()
 
 const isUsersComment: RequestHandler = async (req, res, next) => {
   try {
-    const isOwner = await db.comment.findFirstOrThrow({
+    const isAdmin = await db.user.findFirstOrThrow({
       where: {
-        id: req.params.uuid,
-        author: {
-          id: req.user.id
+          id: req.user.id,
         },
-      }
     })
 
-    console.log(isOwner)
-
-    if (isOwner) {
-      return next()
+    if (isAdmin.role === "ADMIN") {
+      return next();
+    } else {
+      try {
+        const isOwner = await db.comment.findFirstOrThrow({
+          where: {
+            id: req.params.uuid,
+            author: {
+              id: req.user.id
+            },
+          }
+        })
+    
+        console.log(isOwner)
+    
+        if (isOwner) {
+          return next()
+        }
+        throw new Error('You should not be here')
+      } catch(e) {
+        return res.status(400).json({ message: 'You are not the owner' })
+      }
     }
-    throw new Error('You should not be here')
-  } catch(e) {
-    return res.status(400).json({ message: 'You are not the owner' })
-  }
-} 
 
+  } catch(e) {
+    return res.status(400).json({ message: 'You are not admin' })
+  }
+  
+}
 
 app.get(
   '/comments',
